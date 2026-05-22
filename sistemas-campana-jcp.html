@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Campaña — Juan Carlos Palacio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crema: #F7F4EF;
+  --crema-oscura: #EDE8DF;
+  --rojo: #9B1727;
+  --rojo-suave: #B8202F;
+  --dorado: #8C6D2F;
+  --dorado-claro: #C9A84C;
+  --negro: #1A1510;
+  --gris-texto: #4A4540;
+  --gris-suave: #7A7570;
+  --borde: #D8D0C4;
+  --blanco: #FFFFFF;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--crema);
+  color: var(--negro);
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* HEADER */
+header {
+  background: var(--negro);
+  padding: 22px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-bloque {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-iniciales {
+  width: 42px;
+  height: 42px;
+  background: var(--rojo);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.logo-textos h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.logo-textos p {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  font-weight: 300;
+}
+
+.header-pill {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+/* FRANJA SUPERIOR */
+.franja {
+  background: var(--rojo);
+  height: 3px;
+}
+
+/* HERO */
+.hero {
+  padding: 56px 32px 48px;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--dorado);
+  opacity: 0.5;
+}
+
+.hero h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 700;
+  color: var(--negro);
+  line-height: 1.1;
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+}
+
+.hero h2 em {
+  font-style: italic;
+  color: var(--rojo);
+}
+
+.hero p {
+  font-size: 0.95rem;
+  color: var(--gris-texto);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 500px;
+  margin: 0 auto 44px;
+}
+
+/* BUSCADOR */
+.buscador-wrap {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.buscador-campo {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--borde);
+  border-radius: 6px;
+  padding: 15px 48px 15px 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.92rem;
+  color: var(--negro);
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  font-weight: 400;
+  -webkit-appearance: none;
+}
+
+.buscador-campo:focus {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(155,23,39,0.08);
+}
+
+.buscador-campo::placeholder { color: var(--gris-suave); }
+
+.buscador-icono {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gris-suave);
+  font-size: 1rem;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.buscador-borrar {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gris-suave);
+  font-size: 0.85rem;
+  display: none;
+  padding: 4px;
+  line-height: 1;
+}
+
+.buscador-borrar.visible { display: block; }
+.buscador-borrar.visible ~ .buscador-icono { display: none; }
+
+.resultado-conteo {
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--dorado);
+  letter-spacing: 0.06em;
+  min-height: 18px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.resultado-conteo.visible { opacity: 1; }
+
+/* DIVISOR */
+.divisor {
+  width: 48px;
+  height: 2px;
+  background: var(--rojo);
+  margin: 0 auto 48px;
+  opacity: 0.3;
+}
+
+/* MÓDULOS */
+.modulos {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.modulo {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-bottom: none;
+  transition: background 0.2s;
+  animation: aparecer 0.4s ease both;
+}
+
+.modulo:first-child { border-radius: 8px 8px 0 0; }
+.modulo:last-of-type { border-bottom: 1px solid var(--borde); border-radius: 0 0 8px 8px; }
+
+@keyframes aparecer {
+  from { opacity:0; transform:translateY(12px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.modulo:nth-child(1){animation-delay:0.04s}
+.modulo:nth-child(2){animation-delay:0.08s}
+.modulo:nth-child(3){animation-delay:0.12s}
+.modulo:nth-child(4){animation-delay:0.16s}
+.modulo:nth-child(5){animation-delay:0.20s}
+.modulo:nth-child(6){animation-delay:0.24s}
+.modulo:nth-child(7){animation-delay:0.28s}
+
+.modulo.oculto { display: none; }
+
+.modulo.abierto {
+  background: #fff;
+  border-color: var(--rojo);
+  border-bottom: 1px solid var(--rojo);
+  z-index: 2;
+  position: relative;
+  border-radius: 8px;
+  margin: 4px 0;
+  box-shadow: 0 4px 24px rgba(155,23,39,0.08);
+}
+
+/* HEADER DEL MÓDULO */
+.mod-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.mod-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--borde);
+  min-width: 32px;
+  line-height: 1;
+  transition: color 0.3s;
+  flex-shrink: 0;
+}
+
+.modulo.abierto .mod-num { color: var(--rojo); }
+
+.mod-icono {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--crema-oscura);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.modulo.abierto .mod-icono { background: #fdf0f1; }
+
+.mod-textos { flex: 1; min-width: 0; }
+
+.mod-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--negro);
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+
+.mod-subtitulo {
+  font-size: 0.78rem;
+  color: var(--gris-suave);
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.mod-quien {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gris-suave);
+  background: var(--crema);
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 500;
+  display: none;
+}
+
+@media(min-width:480px){ .mod-quien { display: block; } }
+
+.mod-flecha {
+  font-size: 0.75rem;
+  color: var(--gris-suave);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), color 0.25s;
+  flex-shrink: 0;
+}
+
+.modulo.abierto .mod-flecha {
+  transform: rotate(180deg);
+  color: var(--rojo);
+}
+
+/* CONTENIDO DESPLEGABLE */
+.mod-cuerpo {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+.modulo.abierto .mod-cuerpo { max-height: 1200px; }
+
+.mod-interior {
+  padding: 4px 24px 28px;
+  border-top: 1px solid var(--crema-oscura);
+  margin-top: 0;
+}
+
+/* GRID DE FUNCIONES */
+.funciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0 22px;
+}
+
+@media(max-width:440px){ .funciones { grid-template-columns: 1fr; } }
+
+.funcion {
+  background: var(--crema);
+  border-radius: 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--crema-oscura);
+}
+
+.funcion-emoji {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.funcion-nombre {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--negro);
+  margin-bottom: 5px;
+  font-family: 'Jost', sans-serif;
+}
+
+.funcion-desc {
+  font-size: 0.78rem;
+  color: var(--gris-texto);
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+/* EJEMPLO */
+.ejemplo {
+  background: #fff9f0;
+  border: 1px solid #e8d9b8;
+  border-left: 3px solid var(--dorado-claro);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+
+.ejemplo-etiq {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.ejemplo-texto {
+  font-size: 0.84rem;
+  color: var(--gris-texto);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.ejemplo-texto strong {
+  color: var(--negro);
+  font-weight: 600;
+}
+
+/* BENEFICIO */
+.beneficio {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: #fdf0f1;
+  border: 1px solid rgba(155,23,39,0.12);
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+
+.beneficio-ico { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+.beneficio-etiq {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rojo);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.beneficio-texto {
+  font-size: 0.82rem;
+  color: var(--gris-texto);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* SIN RESULTADOS */
+.sin-resultados {
+  display: none;
+  text-align: center;
+  padding: 56px 24px;
+  color: var(--gris-suave);
+}
+
+.sin-resultados.visible { display: block; }
+
+.sin-resultados h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--negro);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.sin-resultados p { font-size: 0.84rem; font-weight: 300; }
+
+/* FOOTER */
+footer {
+  background: var(--negro);
+  padding: 28px 32px;
+  text-align: center;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  font-weight: 300;
+}
+
+footer strong { color: rgba(255,255,255,0.6); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-bloque">
+    <div class="logo-iniciales">JCP</div>
+    <div class="logo-textos">
+      <h1>Juan Carlos Palacio F.</h1>
+      <p>Sistema de Campaña · Alcaldía Envigado</p>
+    </div>
+  </div>
+  <div class="header-pill">2026</div>
+</header>
+<div class="franja"></div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Propuesta estratégica</div>
+  <h2>Una plataforma.<br><em>Toda la campaña.</em></h2>
+  <p>Siete módulos que conectan al candidato, la gerencia, comunicaciones, el territorio y los voluntarios — cada uno en su rol, todos trabajando hacia el mismo objetivo.</p>
+
+  <div class="buscador-wrap">
+    <input type="text" class="buscador-campo" id="buscar" placeholder="Busca: presupuesto, voluntarios, barrios…" autocomplete="off" autocorrect="off">
+    <button class="buscador-borrar" id="borrar" onclick="limpiarBusqueda()">✕</button>
+    <span class="buscador-icono">&#9906;</span>
+  </div>
+  <div class="resultado-conteo" id="conteo"></div>
+</div>
+
+<div class="divisor"></div>
+
+<div class="modulos" id="listaModulos">
+
+  <!-- 01 CANDIDATO -->
+  <div class="modulo" data-kw="candidato panel dashboard resumen alertas agenda crisis noticias aprobacion celular">
+    <div class="mod-header" onclick="toggle(this)">
+      <span class="mod-num">01</span>
+      <div class="mod-icono">🏛️</div>
+      <div class="mod-textos">
+        <div class="mod-titulo">Panel del Candidato</div>
+        <div class="mod-subtitulo">Vista ejecutiva de toda la campaña en tiempo real</div>
+      </div>
+      <span class="mod-quien">Solo: JCP</span>
+      <span class="mod-flecha">▾</span>
+    </div>
+    <div class="mod-cuerpo">
+      <div class="mod-interior">
+        <div class="funciones">
+          <div class="funcion">
+            <span class="funcion-emoji">📊</span>
+            <div class="funcion-nombre">Resumen ejecutivo</div>
+            <div class="funcion-desc">Voluntarios activos, eventos de la semana, publicaciones pendientes — todo en una pantalla al abrir el celular.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">🚨</span>
+            <div class="funcion-nombre">Alertas de crisis</div>
+            <div class="funcion-desc">Si alguien del equipo marca algo urgente (noticia negativa, problema en evento), llega una notificación inmediata. Como una alarma, pero de campaña.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📅</span>
+            <div class="funcion-nombre">Agenda del candidato</div>
+            <div class="funcion-desc">Todos los compromisos sincronizados con el equipo: visitas barriales, ruedas de prensa, reuniones con líderes.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">✅</span>
+            <div class="funcion-nombre">Aprobación de mensajes</div>
+            <div class="funcion-desc">Antes de publicar cualquier cosa en redes, Juan Carlos la aprueba con un clic. Nada sale sin su visto bueno.</div>
+          </div>
+        </div>
+        <div class="ejemplo">
+          <div class="ejemplo-etiq">⚡ Ejemplo de uso</div>
+          <div class="ejemplo-texto">Son las 7am. Juan Carlos abre el sistema y ve: <strong>"3 eventos hoy, 2 publicaciones pendientes de aprobar y una alerta: un medio publicó una nota crítica sobre su gestión en la Asamblea."</strong> En dos minutos ya sabe todo lo que necesita para el día — sin llamar a nadie.</div>
+        </div>
+        <div class="beneficio">
+          <span class="beneficio-ico">🎯</span>
+          <div>
+            <div class="beneficio-etiq">Beneficio clave</div>
+            <div class="beneficio-texto">El candidato deja de depender de cadenas de WhatsApp para saber cómo va su campaña. Todo centralizado, en orden y en tiempo real.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 GERENCIA -->
+  <div class="modulo" data-kw="gerencia presupuesto dinero plata gastos cronograma metas resultados alianzas financiacion">
+    <div class="mod-header" onclick="toggle(this)">
+      <span class="mod-num">02</span>
+      <div class="mod-icono">🎯</div>
+      <div class="mod-textos">
+        <div class="mod-titulo">Gerencia de Campaña</div>
+        <div class="mod-subtitulo">Control del presupuesto, cronograma y metas</div>
+      </div>
+      <span class="mod-quien">Gerente + JCP</span>
+      <span class="mod-flecha">▾</span>
+    </div>
+    <div class="mod-cuerpo">
+      <div class="mod-interior">
+        <div class="funciones">
+          <div class="funcion">
+            <span class="funcion-emoji">💰</span>
+            <div class="funcion-nombre">Control de presupuesto</div>
+            <div class="funcion-desc">Cada gasto se registra y el sistema descuenta del saldo disponible. Al final de cada semana, un informe claro de en qué se fue la plata.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📅</span>
+            <div class="funcion-nombre">Cronograma maestro</div>
+            <div class="funcion-desc">Las fechas clave de toda la campaña visibles para el equipo: inscripción, debates, cierre. Sin que nadie se pierda nada.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📈</span>
+            <div class="funcion-nombre">Metas de campaña</div>
+            <div class="funcion-desc">"Meta: visitar 20 barrios antes de octubre. Avance: 8." El sistema muestra barras de progreso. Sin suposiciones, con datos.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">🤝</span>
+            <div class="funcion-nombre">Registro de alianzas</div>
+            <div class="funcion-desc">Líderes, comunidades o partidos que se suman — con fecha de compromiso y nombre del contacto. Nada se olvida.</div>
+          </div>
+        </div>
+        <div class="ejemplo">
+          <div class="ejemplo-etiq">⚡ Ejemplo de uso</div>
+          <div class="ejemplo-texto">El gerente registra que se gastaron <strong>$2.000.000 en volantes para el barrio Jardines.</strong> El sistema lo descuenta del presupuesto automáticamente y genera un informe mensual listo para mostrar a los financiadores de la campaña.</div>
+        </div>
+        <div class="beneficio">
+          <span class="beneficio-ico">🎯</span>
+          <div>
+            <div class="beneficio-etiq">Beneficio clave</div>
+            <div class="beneficio-texto">La campaña nunca se queda sin saber cuánta plata tiene disponible ni en qué se gastó. Transparencia total y control real del dinero.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 COMUNICACIONES -->
+  <div class="modulo" data-kw="comunicaciones redes sociales instagram facebook contenido publicaciones calendario piezas graficas menciones noticias">
+    <div class="mod-header" onclick="toggle(this)">
+      <span class="mod-num">03</span>
+      <div class="mod-icono">📢</div>
+      <div class="mod-textos">
+        <div class="mod-titulo">Comunicaciones y Redes</div>
+        <div class="mod-subtitulo">Calendario editorial, banco de contenidos y seguimiento digital</div>
+      </div>
+      <span class="mod-quien">Equipo comms</span>
+      <span class="mod-flecha">▾</span>
+    </div>
+    <div class="mod-cuerpo">
+      <div class="mod-interior">
+        <div class="funciones">
+          <div class="funcion">
+            <span class="funcion-emoji">🗓️</span>
+            <div class="funcion-nombre">Calendario editorial</div>
+            <div class="funcion-desc">Qué publicar cada día, en qué red y con qué mensaje. Nada se improvisa ni queda en la cabeza de una sola persona.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">🗂️</span>
+            <div class="funcion-nombre">Banco de contenidos</div>
+            <div class="funcion-desc">Piezas gráficas, fotos y videos aprobados en un solo lugar. Cualquiera del equipo los encuentra en segundos.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">🔔</span>
+            <div class="funcion-nombre">Monitoreo de menciones</div>
+            <div class="funcion-desc">Cuando alguien habla de Juan Carlos en internet — para bien o mal — el sistema avisa. Como tener un asistente leyendo todo lo que dicen de él.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📊</span>
+            <div class="funcion-nombre">Métricas de redes</div>
+            <div class="funcion-desc">Cuánta gente ve las publicaciones, cuáles funcionan mejor y cuáles no. Datos reales para tomar decisiones de comunicación.</div>
+          </div>
+        </div>
+        <div class="ejemplo">
+          <div class="ejemplo-etiq">⚡ Ejemplo de uso</div>
+          <div class="ejemplo-texto">El lunes se planean todas las publicaciones de la semana: <strong>"Martes — Instagram: foto del evento en Loma de los Zuleta. Jueves — Facebook: video de propuesta de movilidad."</strong> Cada pieza ya está guardada y lista. Sin estrés de último minuto.</div>
+        </div>
+        <div class="beneficio">
+          <span class="beneficio-ico">🎯</span>
+          <div>
+            <div class="beneficio-etiq">Beneficio clave</div>
+            <div class="beneficio-texto">La campaña habla con una sola voz en todas las redes. Sin publicaciones a destiempo ni mensajes contradictorios entre el equipo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 TERRITORIAL -->
+  <div class="modulo" data-kw="territorial barrios mapa envigado zonas lideres promesas comunidades sectores cobertura">
+    <div class="mod-header" onclick="toggle(this)">
+      <span class="mod-num">04</span>
+      <div class="mod-icono">🗺️</div>
+      <div class="mod-textos">
+        <div class="mod-titulo">Cobertura Territorial</div>
+        <div class="mod-subtitulo">Mapa de Envigado por barrios, líderes y promesas de gestión</div>
+      </div>
+      <span class="mod-quien">Coord. territorial</span>
+      <span class="mod-flecha">▾</span>
+    </div>
+    <div class="mod-cuerpo">
+      <div class="mod-interior">
+        <div class="funciones">
+          <div class="funcion">
+            <span class="funcion-emoji">🗺️</span>
+            <div class="funcion-nombre">Mapa por barrios</div>
+            <div class="funcion-desc">Cada barrio de Envigado tiene un color: verde si está cubierto, rojo si no tiene líder asignado. Un semáforo de cobertura en tiempo real.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">👤</span>
+            <div class="funcion-nombre">Líder por sector</div>
+            <div class="funcion-desc">Cada zona tiene una persona responsable con su nombre, teléfono y cuántos voluntarios tiene a cargo.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📝</span>
+            <div class="funcion-nombre">Registro de promesas</div>
+            <div class="funcion-desc">Si Juan Carlos visita un barrio y se compromete con algo, queda registrado. Antes de las elecciones se puede mostrar lo que se cumplió. Genera confianza real.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">👥</span>
+            <div class="funcion-nombre">Líderes de opinión</div>
+            <div class="funcion-desc">Registro de personas influyentes por barrio: presidentes de JAC, líderes religiosos, comerciantes, presidentes de copropiedades.</div>
+          </div>
+        </div>
+        <div class="ejemplo">
+          <div class="ejemplo-etiq">⚡ Ejemplo de uso</div>
+          <div class="ejemplo-texto">El coordinador entra al mapa y ve que <strong>el barrio El Chinguí está en rojo</strong> — sin líder ni evento programado. Asigna una persona, programa una visita y el barrio pasa a verde. Visual, simple e inmediato.</div>
+        </div>
+        <div class="beneficio">
+          <span class="beneficio-ico">🎯</span>
+          <div>
+            <div class="beneficio-etiq">Beneficio clave</div>
+            <div class="beneficio-texto">Ningún barrio de Envigado queda sin trabajo de campaña. Los huecos se ven antes de que sea tarde y se actúa sobre ellos con datos, no con intuición.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 VOLUNTARIOS -->
+  <div class="modulo" data-kw="voluntarios registro formulario puntos reconocimiento zonas barrios disponibilidad tareas">
+    <div class="mod-header" onclick="toggle(this)">
+      <span class="mod-num">05</span>
+      <div class="mod-icono">🙋</div>
+      <div class="mod-textos">
+        <div class="mod-titulo">Gestión de Voluntarios</div>
+        <div class="mod-subtitulo">Registro, asignación de tareas y sistema de reconocimiento</div>
+      </div>
+      <span class="mod-quien">Coord. voluntarios</span>
+      <span class="mod-flecha">▾</span>
+    </div>
+    <div class="mod-cuerpo">
+      <div class="mod-interior">
+        <div class="funciones">
+          <div class="funcion">
+            <span class="funcion-emoji">📋</span>
+            <div class="funcion-nombre">Registro de voluntarios</div>
+            <div class="funcion-desc">Formulario sencillo: nombre, barrio, si tiene carro, disponibilidad, habilidades (diseño, oratoria, redes, logística). Una ficha por persona.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📤</span>
+            <div class="funcion-nombre">Asignación de tareas</div>
+            <div class="funcion-desc">Cuando hay un evento en un barrio, el sistema avisa a los voluntarios de esa zona. No hay que llamar uno por uno.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">⭐</span>
+            <div class="funcion-nombre">Sistema de puntos</div>
+            <div class="funcion-desc">Cada vez que un voluntario asiste o cumple una tarea, acumula puntos. Los más activos reciben reconocimiento al final. Eso motiva a la gente.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">💬</span>
+            <div class="funcion-nombre">Canal por zonas</div>
+            <div class="funcion-desc">Mensajes directos a grupos de voluntarios por sector. Sin mezclar todos en un mismo chat de WhatsApp donde nadie lee nada.</div>
+          </div>
+        </div>
+        <div class="ejemplo">
+          <div class="ejemplo-etiq">⚡ Ejemplo de uso</div>
+          <div class="ejemplo-texto">Llega una persona nueva que quiere apoyar. Se registra en 3 minutos. El sistema lo asigna al sector de <strong>Las Vegas</strong> donde vive y la próxima semana recibe aviso del evento más cercano a su casa. Automático.</div>
+        </div>
+        <div class="beneficio">
+          <span class="beneficio-ico">🎯</span>
+          <div>
+            <div class="beneficio-etiq">Beneficio clave</div>
+            <div class="beneficio-texto">El equipo de voluntarios deja de ser un desorden de contactos en WhatsApp. Se convierte en una red organizada, motivada y medible que crece sola.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 EVENTOS -->
+  <div class="modulo" data-kw="eventos actividades sancocho foro visita barrial logistica checklist asistentes responsable recordatorio">
+    <div class="mod-header" onclick="toggle(this)">
+      <span class="mod-num">06</span>
+      <div class="mod-icono">📋</div>
+      <div class="mod-textos">
+        <div class="mod-titulo">Planificación de Eventos</div>
+        <div class="mod-subtitulo">Cada actividad con ficha completa de logística y seguimiento</div>
+      </div>
+      <span class="mod-quien">Todo el equipo</span>
+      <span class="mod-flecha">▾</span>
+    </div>
+    <div class="mod-cuerpo">
+      <div class="mod-interior">
+        <div class="funciones">
+          <div class="funcion">
+            <span class="funcion-emoji">📌</span>
+            <div class="funcion-nombre">Ficha del evento</div>
+            <div class="funcion-desc">Fecha, lugar, responsable, aforo esperado, logística necesaria. Todo en una sola página antes de salir a campo.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">✅</span>
+            <div class="funcion-nombre">Checklist automático</div>
+            <div class="funcion-desc">Lista de tareas antes y después del evento. El sistema avisa si algo quedó sin confirmar. Nunca más llegar y que falte el micrófono.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">🔔</span>
+            <div class="funcion-nombre">Recordatorios</div>
+            <div class="funcion-desc">El día anterior, aviso automático a todos los involucrados: responsables, voluntarios y el candidato. Sin tener que recordar recordar.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📷</span>
+            <div class="funcion-nombre">Registro post-evento</div>
+            <div class="funcion-desc">Después se sube una foto y un resumen: cuánta gente asistió, compromisos pendientes. Todo guardado para futura referencia.</div>
+          </div>
+        </div>
+        <div class="ejemplo">
+          <div class="ejemplo-etiq">⚡ Ejemplo de uso</div>
+          <div class="ejemplo-texto">Se programa un evento en el <strong>Parque El Salado.</strong> La ficha tiene: fecha, hora, responsable, cuántas sillas, quién confirma el sonido. El día anterior suena el recordatorio. Después se sube la foto. Sin papeles, sin Excel perdidos.</div>
+        </div>
+        <div class="beneficio">
+          <span class="beneficio-ico">🎯</span>
+          <div>
+            <div class="beneficio-etiq">Beneficio clave</div>
+            <div class="beneficio-texto">Los eventos salen bien porque todo está previsto. Y si algo falla, queda el registro para no repetirlo. La campaña aprende de cada actividad.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 ELECTORAL -->
+  <div class="modulo" data-kw="electoral dia e elecciones testigos mesa puestos votacion urnas resultado conteo suplentes">
+    <div class="mod-header" onclick="toggle(this)">
+      <span class="mod-num">07</span>
+      <div class="mod-icono">🗳️</div>
+      <div class="mod-textos">
+        <div class="mod-titulo">Día de Elecciones</div>
+        <div class="mod-subtitulo">Control total el día que más importa — testigos, puestos y contingencias</div>
+      </div>
+      <span class="mod-quien">Gerente + JCP</span>
+      <span class="mod-flecha">▾</span>
+    </div>
+    <div class="mod-cuerpo">
+      <div class="mod-interior">
+        <div class="funciones">
+          <div class="funcion">
+            <span class="funcion-emoji">📍</span>
+            <div class="funcion-nombre">Mapa de puestos</div>
+            <div class="funcion-desc">Todos los puestos de votación de Envigado en el sistema. Verde si tiene testigo confirmado, rojo si falta. En tiempo real.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">👁️</span>
+            <div class="funcion-nombre">Testigos de mesa</div>
+            <div class="funcion-desc">Cada testigo tiene su ficha: puesto asignado, mesa y número de contacto. Reciben instrucciones claras de qué hacer y qué reportar.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">📡</span>
+            <div class="funcion-nombre">Reporte en vivo</div>
+            <div class="funcion-desc">Durante el día cada testigo reporta desde su puesto. El gerente ve el panorama completo sin tener que llamar a 40 personas una por una.</div>
+          </div>
+          <div class="funcion">
+            <span class="funcion-emoji">⚡</span>
+            <div class="funcion-nombre">Plan de contingencia</div>
+            <div class="funcion-desc">Si un testigo no llega, el sistema activa al suplente de esa zona. Sin improvisación bajo presión el día más crítico.</div>
+          </div>
+        </div>
+        <div class="ejemplo">
+          <div class="ejemplo-etiq">⚡ Ejemplo de uso</div>
+          <div class="ejemplo-texto">Son las 8am del día de elecciones. El gerente abre el sistema y ve que <strong>38 de los 40 puestos ya tienen testigo activo.</strong> Los 2 restantes muestran alerta. En 5 minutos activa los suplentes. Todo bajo control, sin caos.</div>
+        </div>
+        <div class="beneficio">
+          <span class="beneficio-ico">🎯</span>
+          <div>
+            <div class="beneficio-etiq">Beneficio clave</div>
+            <div class="beneficio-texto">El día más importante de la campaña no puede depender de llamadas de último minuto. Este módulo garantiza que cada voto de Juan Carlos esté protegido en cada mesa.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sin-resultados" id="sinResultados">
+    <h3>Sin resultados</h3>
+    <p>Intenta con palabras como "presupuesto", "voluntarios", "barrios" o "redes".</p>
+  </div>
+
+</div>
+
+<footer>
+  <strong>Juan Carlos Palacio Fernández</strong> · Sistema de Campaña · Alcaldía de Envigado 2026 · Partido Liberal Colombiano
+</footer>
+
+<script>
+function toggle(header) {
+  const mod = header.closest('.modulo');
+  const abierto = mod.classList.contains('abierto');
+  document.querySelectorAll('.modulo.abierto').forEach(m => m.classList.remove('abierto'));
+  if (!abierto) {
+    mod.classList.add('abierto');
+    setTimeout(() => {
+      const rect = mod.getBoundingClientRect();
+      if (rect.top < 80) mod.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }, 100);
+  }
+}
+
+const input = document.getElementById('buscar');
+const borrar = document.getElementById('borrar');
+const conteo = document.getElementById('conteo');
+const sinRes = document.getElementById('sinResultados');
+const modulos = document.querySelectorAll('.modulo[data-kw]');
+
+input.addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  borrar.classList.toggle('visible', q.length > 0);
+
+  if (!q) {
+    modulos.forEach(m => m.classList.remove('oculto'));
+    conteo.textContent = '';
+    conteo.classList.remove('visible');
+    sinRes.classList.remove('visible');
+    return;
+  }
+
+  let n = 0;
+  modulos.forEach(m => {
+    const texto = (m.dataset.kw + ' ' + m.innerText).toLowerCase();
+    const ok = q.split(' ').every(w => texto.includes(w));
+    m.classList.toggle('oculto', !ok);
+    if (ok) n++;
+  });
+
+  conteo.textContent = n === 0 ? 'Ningún módulo coincide' : n === 1 ? '1 módulo encontrado' : `${n} módulos encontrados`;
+  conteo.classList.add('visible');
+  sinRes.classList.toggle('visible', n === 0);
+});
+
+function limpiarBusqueda() {
+  input.value = '';
+  input.dispatchEvent(new Event('input'));
+  input.focus();
+}
+</script>
+</body>
+</html>
